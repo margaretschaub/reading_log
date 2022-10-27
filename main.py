@@ -17,14 +17,11 @@ def parse_file(file_location):
 
 
 def convert_integers(name_of_list, index_value):
-    n = 0
     for each in name_of_list:
         try:
-            name_of_list[n][index_value] = int(name_of_list[n][index_value])
+            each[index_value] = int(each[index_value])
         except ValueError:
-            print(f"Entry error at {name_of_list[n][1]}")
-
-        n += 1
+            print(f"Entry error at {each[1]}")
 
 
 cat = parse_file("/Users/margaretschaub/Desktop/books_table.txt")
@@ -35,3 +32,14 @@ print(type(cat))
 convert_integers(cat, 0)
 convert_integers(cat, 2)
 convert_integers(cat, 3)
+
+print(parse_file("/Users/margaretschaub/Desktop/books_authors.txt"))
+
+author_list = parse_file("/Users/margaretschaub/Desktop/books_authors.txt")
+
+n=1
+for item in author_list:
+    item.insert(0, n)
+    n += 1
+
+print(author_list)
