@@ -12,4 +12,3 @@ class Books:
         self.page_count = page_count
         self.publication_date = publication_date
 
-    
