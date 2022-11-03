@@ -1,5 +1,3 @@
-#"/Users/margaretschaub/Desktop/books_table.txt"
-
 def parse_file(file_location):
 
     desired_list = []
@@ -15,11 +13,13 @@ def parse_file(file_location):
             desired_list.append(row_list)
     return desired_list
 
+
 def create_list_of_tuples(nested_list):
     list_of_tuples = []
     for item in nested_list:
         list_of_tuples.append(tuple(item))
     return list_of_tuples
+
 
 def convert_integers(name_of_list, index_value):
     for each in name_of_list:
@@ -28,8 +28,4 @@ def convert_integers(name_of_list, index_value):
         except ValueError:
             print(f"Entry error at {each[1]}")
 
-# n=1
-# for item in author_list:
-#     item.insert(0, n)
-#     n += 1
 
