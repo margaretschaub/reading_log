@@ -25,9 +25,12 @@ def master_import(table_name, dictionary):
         value.append(v)
 
     column_names = ",".join(key)
+    value_tuple = tuple(value)
 
-    a = f"INSERT OR IGNORE INTO {table_name} ({column_names}) VALUES({value})"
-    res1 = cur.execute(a)
+    a = f"INSERT OR IGNORE INTO {table_name}({column_names}) VALUES{value_tuple}"
+    cur.execute(a)
+    conn.commit()
+
 
 
 def create_dict_log(book_id):
@@ -50,11 +53,29 @@ def create_dict_log(book_id):
 
     return dict_log
 
+def create_dict_to_read(book_id):
+    date_added = input("Please enter date added to TBR in format m/d/Y: ")
+    date_added_clean = convert_date(date_added)
 
-# dict_genre = {"book_id":"","genre":""}
-# dict_authors ={"last_name":"","first_name":""}
-# dict_books = {"title":"", "isbn":"", "page_count": "", "publication_date":"", "author":""}
-# dict_to_read = {"date_added_TBR":"", "book_id":""}
+    dict_to_read = {"date_added_TBR": date_added_clean, "book_id": book_id}
+
+    return dict_to_read
+
+
+def create_dict_books():
+
+    book_title = input("Please enter title of book: ")
+    isbn = int(input("Please enter isbn: "))
+    page_count = int(input("Please enter page count: "))
+    publication_date = convert_date(input("Please enter publication date: "))
+
+    dict_books = {"title": book_title, "isbn": isbn, "page_count": page_count, "publication_date": publication_date}
+    return dict_books
+
+
+
+
+
 
 
 
