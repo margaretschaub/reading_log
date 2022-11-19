@@ -10,10 +10,12 @@ def find_book():
     res3 = cur.execute(c)
     for each in res3.fetchall():
         print(each)
-    selection = input("Please select id that matches book you choose: ")
-    print(f"The id you selected is {selection}")
-    return int(selection)
-
+    try:
+        selection = input("Please select id that matches book you choose: ")
+        return int(selection)
+    except(ValueError):
+        print("You did not select a matching id pair. This will only work if you are entering a new book. ")
+        return "placeholder"
 
 def master_import(table_name, dictionary):
     key = []
@@ -62,7 +64,7 @@ def create_dict_to_read(book_id):
     return dict_to_read
 
 
-def create_dict_books():
+def create_dict_books(place_holder):
 
     book_title = input("Please enter title of book: ")
     isbn = int(input("Please enter isbn: "))
@@ -74,13 +76,13 @@ def create_dict_books():
 
 
 
+table_dict = {"log": create_dict_log, "books": create_dict_books, "to_read": create_dict_to_read}
+def main():
+    a = find_book()
+    table_name = input("Please enter the name of the table you wish to insert into: ")
+    table_name = table_name.lower().strip()
+    master_import(table_name, table_dict[table_name](a))
 
 
-
-
-
-
-
-
-
-
+main()
+    
