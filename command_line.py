@@ -1,6 +1,25 @@
 import sys
 from datetime import datetime
+import sqlite3
 
+conn = sqlite3.connect('reading_log_database.db')
+cur = conn.cursor()
+
+a = f"SELECT id from books where title = {title}"
+res1 = cur.execute(a)
+book_id = res1.fetchone()
+
+b = f"INSERT OR IGNORE INTO authors (last_name, first_name) VALUES('{last}','{first}')"
+
+u = f'select id from authors where last_name = "{last}" and first_name = "{first}" COLLATE NOCASE'
+
+c = f"INSERT OR IGNORE INTO books (title, isbn, page_count, publication_date, author) " \
+    f"VALUES ('{title}',{isbn},{page_count},{publication_date},{auth_id})"
+
+e = f"INSERT OR IGNORE INTO to_read (date_added_TBR, book_id) VALUES ({date_added},{book_id}"
+
+f = f"INSERT OR IGNORE INTO log (started_date,finished_date, my_rating, library_book, format, purchased, book) " \
+    f"VALUES ('{started_date}',{finished_date},{my_rating},{library_book},{format_book},{purchased},{book_id})"
 
 known_genre = ["fiction", "action & adventure", "alternative history", "anthology", "asian american", "biography",
                "classic", "comics", "coming of age", "crime", "dystopian", "disaster", "fantasy", "folklore", "ghost",
@@ -83,6 +102,11 @@ def main():
             print(f"adding new book: title={title}, isbn={isbn}, page count={page_count}, "
                   f"publication date = {publication_date}, author last name = {last}, author first name = {first}",
                   f"genre = {genre}")
+            cur.execute(b)
+            res2 = cur.execute(u)
+            auth_id = res2.fetchone()
+            cur.execute(c)
+            # conn.commit()
             return 0
         except IndexError:
             print("You did not pass the correct # of arguments. Please use command --help")
@@ -103,6 +127,10 @@ def main():
             print(f"adding to finished log: title={title}, started date={started_date}, finished date={finished_date}, "
                   f"my rating = {my_rating}, library book = {library_book}, format = {format_book}",
                   f"purchased = {purchased}")
+            res1 = cur.execute(a)
+            book_id = res1.fetchone()
+            cur.execute(f)
+            # conn.commit()
             return 0
         except IndexError:
             print("You did not pass the correct # of arguments. Please use command --help")
@@ -113,6 +141,10 @@ def main():
             date_added = convert_date(sys.argv[3])
 
             print(f"adding to want to read: title = {title}, date added to TBR = {date_added}")
+            res1 = cur.execute(a)
+            book_id = res1.fetchone()
+            cur.execute(e)
+            #conn.commit()
         except IndexError:
             print("You did not pass the correct # of arguments. Please use command --help")
 
@@ -127,33 +159,3 @@ sys.exit(rc)
 
 #edit --> updating already placed records
 #check --> see what data is missing
-
-f = f"INSERT OR IGNORE INTO log (started_date,finished_date, my_rating, library_book, format, purchased, book) " \
-    f"VALUES ('{started_date}',{finished_date},{my_rating},{library_book},{format_book},{purchased},{book_id})"
-
-
-
-print(f"adding to want to read: title = {title}, date added to TBR = {date_added}")
-dict_to_read = {"date_added_TBR": date_added, "book_id": title}
-e = f"INSERT OR IGNORE INTO to_read (date_added_TBR, book_id) VALUES ({date_added},{book_id}"
-
-
-
-
-print(f"adding new book: title={title}, isbn={isbn}, page count={page_count}, "
-                  f"publication date = {publication_date}, author last name = {last}, author first name = {first}",
-                  f"genre = {genre}")
-
-a = f"SELECT id from books where title = {title}"
-res1 = cur.execute(a)
-book_id = res1.fetchone()
-
-b = f"INSERT OR IGNORE INTO authors (last_name, first_name) VALUES('{last}','{first}')"
-u = f'select id from authors where last_name = "{last}" and first_name = "{first}" COLLATE NOCASE'
-res3 = cur.execute(u)
-auth_id = res3.fetchone()
-c = f"INSERT OR IGNORE INTO books (title, isbn, page_count, publication_date, author) " \
-    f"VALUES ('{title}',{isbn},{page_count},{publication_date},{auth_id})"
-
-for each in genre:
-    d = f"INSERT OR IGNORE INTO genre (genre, book_id) VALUES('{each.strip()}',{book_id})"
